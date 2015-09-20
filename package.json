@@ -1,0 +1,23 @@
+{
+  "name": "kimaginary",
+  "version": "1.0.0",
+  "description": "sharp as a webservice",
+  "main": "index.js",
+  "scripts": {
+    "test": "@NODE_ENV=test ./node_modules/.bin/mocha --recursive --reporter $(REPORTER) --timeout 3000"
+  },
+  "author": "Lei Yang",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leiyangyou/kimaginary.git"
+  },
+  "keywords": [
+    "sharp",
+    "koa"
+  ],
+  "bugs": {
+    "url": "https://github.com/leiyangyou/kimaginary/issues"
+  },
+  "homepage": "https://github.com/leiyangyou/kimaginary#readme"
+}
