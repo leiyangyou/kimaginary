@@ -17,7 +17,7 @@ router.post('/watermark', function *(next) {
   var body = yield getRawBody(this.req, {encoding: false});
   var qs = this.query;
   this.body = Sharp(new Buffer(body)).
-    maskWithColor(parseColor(qs.mask, qs.maskopacity)).
+    overlayWith(parseColor(qs.mask, qs.maskopacity)).
     watermark({
       color: parseColor(qs.color, qs.opacity),
       text: qs.text,
