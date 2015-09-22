@@ -16,7 +16,7 @@ function parseColor(c, o) {
 router.post('/watermark', function *(next) {
   var body = yield getRawBody(this.req, {encoding: false});
   var qs = this.query;
-  this.body = Sharp(new Buffer(body)).
+  this.body = yield Sharp(new Buffer(body)).
     overlayWith(parseColor(qs.mask, qs.maskopacity)).
     watermark({
       color: parseColor(qs.color, qs.opacity),
@@ -25,7 +25,7 @@ router.post('/watermark', function *(next) {
       font: qs.font,
       spacing: qs.linespacing,
       dpi: qs.dpi
-    });
+    }).toBuffer();
   this.status = 200;
   yield next;
 });
