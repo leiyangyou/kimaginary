@@ -30,21 +30,8 @@ router.post('/watermark', function *(next) {
   yield next;
 });
 
-if (cluster.isMaster) {
-  var numCPUs = require('os').cpus().length;
-
-  for (var i = 0; i < numCPUs; i++) {
-    var worker = cluster.fork();
-  }
-
-  cluster.on('exit', function(worker) {
-    cluster.fork();
-  });
-} else {
-  app
-    .use(logger())
-    .use(router.routes())
-    .use(router.allowedMethods())
-    .listen(8088);
-}
-
+app
+  .use(logger())
+  .use(router.routes())
+  .use(router.allowedMethods())
+  .listen(8088);
