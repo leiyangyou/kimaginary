@@ -23,7 +23,7 @@ router.post('/watermark', function *(next) {
       text: qs.text,
       textWidth: qs.textwidth,
       font: qs.font,
-      lineSpacing: qs.linespacing,
+      spacing: qs.linespacing,
       dpi: qs.dpi
     });
   this.status = 200;
