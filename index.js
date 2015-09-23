@@ -7,6 +7,7 @@ var Color = require('color');
 var getRawBody = require('raw-body');
 var logger = require('koa-logger');
 var cluster = require('cluster');
+var path = require('path');
 
 
 function parseColor(c, o) {
@@ -14,9 +15,16 @@ function parseColor(c, o) {
 }
 
 router.post('/watermark', function *(next) {
-  var body = yield getRawBody(this.req, {encoding: false});
   var qs = this.query;
-  this.body = yield Sharp(new Buffer(body)).
+  var source = null;
+
+  if (qs.path) {
+    source = path.join(basePath, qs.path);
+  } else {
+    source = new Buffer(yield getRawBody(this.req, {encoding: false}));
+  }
+
+  this.body = yield Sharp(source).
     overlayWith(parseColor(qs.mask, qs.maskopacity)).
     watermark({
       color: parseColor(qs.color, qs.opacity),
@@ -31,6 +39,7 @@ router.post('/watermark', function *(next) {
 });
 
 var numCPUs = require('os').cpus().length;
+var basePath = require('process').env['IMAGINARY_BASE'];
 
 if (cluster.isMaster) {
   for (var i = 0; i < numCPUs; i++) {
